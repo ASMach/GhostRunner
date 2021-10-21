@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class EndGoal : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void OnTriggerEnter(Collider other) {
+        var ghostRecorder = other.gameObject.getComponent<GhostRecorder>();
+        ghostRecorder.EndRun();
     }
 }
