@@ -5,7 +5,7 @@ using UnityEngine;
 public class EndGoal : MonoBehaviour
 {
     void OnTriggerEnter(Collider other) {
-        var ghostRecorder = other.gameObject.getComponent<GhostRecorder>();
+        var ghostRecorder = other.gameObject.GetComponent<GhostRecorder>();
         ghostRecorder.EndRun();
     }
 }
