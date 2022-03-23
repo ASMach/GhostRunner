@@ -3,27 +3,48 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Ghost : MonoBehaviour
+[CreateAssetMenu]
+
+public class Ghost : ScriptableObject
 {
-    private List<Vector3> positions;
+	private List<float> timeStamps;
+	private List<Vector3> positions;
+	private List<Vector3> rotations;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Initialize empty list and populate it from saved data
-        positions = new List<Vector3>();
-        Save save = SaveManager.Instance.LoadRunData();
-        for (int i = 0; i < save.positions.Count; i++)
-        {
-            Vector3 p = save.positions[i];
-            positions.Add(p);
-        }
-    }
+	public List<float> TimeStamps
+	{
+		get => this.timeStamps;
+	}
 
-    // FixedUpdate is called once per physics tick
-    void FixedUpdate()
-    {
-        // TODO: Update to position for this timestamp
-    }
+	public List<Vector3> Positions
+	{
+		get => this.positions;
+	}
+
+	public List<Vector3> Rotations
+	{
+		get => this.rotations;
+	}
+
+	public bool bRecording;
+	public bool bReplay;
+	public float recordingFrequency;
+
+	private Vector3 currentPosition;
+
+    public void AddLocation(float timeStamp, Vector3 position, Vector3 rotation)
+	{
+		timeStamps.Add(timeStamp);
+		positions.Add(position);
+		rotations.Add(rotation);
+	}
+
+    public void ResetData()
+	{
+		timeStamps.Clear();
+		positions.Clear();
+		rotations.Clear();
+	}
 }

@@ -12,18 +12,21 @@ public class SaveManager : Singleton<SaveManager>
         //string json = JsonUtility.ToJson(save); // TODO: Implement full JSON saving system
         
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/gamesave.save");
+        // Create a new save file for each level to store its run data
+        FileStream file = File.Create(Application.persistentDataPath + "/" + save.level + "gamesave.save");
         bf.Serialize(file, save);
         file.Close();
         Debug.Log("Game Saved");
     }
 
-    public Save LoadRunData()
-    { 
-        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+    public Save LoadRunData(string level)
+    {
+		string filePath = Application.persistentDataPath + "/" + level + "gamesave.save";
+
+		if (File.Exists(filePath))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
+            FileStream file = File.Open(filePath, FileMode.Open);
             Save save = (Save)bf.Deserialize(file);
             file.Close();
             Debug.Log("Game Loaded");
